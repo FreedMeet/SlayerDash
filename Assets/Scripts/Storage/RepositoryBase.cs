@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Scenes;
-using Storage.Experience;
 
 namespace Storage
 {
     public class RepositoryBase
     {
         private Dictionary<Type, Repository> _repositoriesMap;
-        private SceneConfig _sceneConfig;
+        private readonly SceneConfig _sceneConfig;
 
         public RepositoryBase(SceneConfig sceneConfig)
         {

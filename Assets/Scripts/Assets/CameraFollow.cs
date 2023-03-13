@@ -1,22 +1,15 @@
+using System;
 using UnityEngine;
-
-namespace Player
+namespace Assets
 {
     public class CameraFollow : MonoBehaviour
     {
-        [SerializeField] private Transform targetTransform;
         [SerializeField] private Vector3 offset;
         [SerializeField] private float smoothing;
 
-
-        private void FixedUpdate()
+        public void SmoothFollow(GameObject target)
         {
-            SmoothFollow();
-        }
-
-        private void SmoothFollow()
-        {
-            var nextPosition = Vector3.Lerp(transform.position, targetTransform.position + offset,
+            var nextPosition = Vector3.Lerp(transform.position, target.transform.position + offset,
                 Time.fixedDeltaTime * smoothing);
             transform.position = nextPosition;
         }

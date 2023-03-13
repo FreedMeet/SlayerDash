@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Storage;
-using Storage.Experience;
+using Storage.Dash;
 using Storage.Player;
 
 namespace Scenes
@@ -15,7 +15,7 @@ namespace Scenes
         {
             var repositoriesMap = new Dictionary<Type, Repository>();
             
-            CreateRepository<ExperienceRepository>(repositoriesMap);
+            CreateRepository<DashRepository>(repositoriesMap);
             CreateRepository<PlayerRepository>(repositoriesMap);
 
             return repositoriesMap;
@@ -25,7 +25,7 @@ namespace Scenes
         {
             var iteratorsMap = new Dictionary<Type, Iterator>();
             
-            CreateIterator<ExperienceIterator>(iteratorsMap);
+            CreateIterator<DashIterator>(iteratorsMap);
             CreateIterator<PlayerIterator>(iteratorsMap);
             
             return iteratorsMap;
