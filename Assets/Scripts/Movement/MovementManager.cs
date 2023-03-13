@@ -1,0 +1,42 @@
+﻿using System;
+using UnityEngine;
+
+namespace Movement
+{
+    public class MovementManager: MonoBehaviour, IControllable
+    {
+        private Move _move;
+        private Dash _dash;
+        private Rotate _rotation;
+
+        private Rigidbody2D _rb;
+        private Vector2 _moveDirection;
+        
+        private void Awake()
+        {
+            _move = new Move();
+            _dash = new Dash();
+            _rotation = new Rotate();
+        
+            if (_move is null && _dash is null && _rotation is null)
+                throw new Exception($"there is no components on the object {gameObject.name}");
+        }
+
+
+        public void Move(Vector2 direction, Rigidbody2D rb)
+        {
+            if (_dash.isDashing) return;
+            _move.InitMoving(rb, direction);
+        }
+
+        public void Dash(Vector2 direction, Rigidbody2D rb)
+        {
+            _dash.InitDashing(rb, direction);
+        }
+
+        public void Rotation(Vector2 direction, Rigidbody2D rb)
+        {
+            _rotation.InitRotation(rb, direction);
+        }
+    }
+}
