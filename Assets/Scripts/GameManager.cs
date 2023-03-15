@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameManager: MonoBehaviour
 {
-    private PlayerIterator _iterator;
+    private PlayerIterator _playerIterator;
     private GameObject _player;
     private CameraFollow _cameraFollow;
     private void Start()
@@ -17,9 +17,10 @@ public class GameManager: MonoBehaviour
     private void OnGameInitializes()
     {
         Game.OnGameInitializeEvent -= OnGameInitializes;
-        _iterator = Game.GetIterator<PlayerIterator>();
+        
+        _playerIterator = Game.GetIterator<PlayerIterator>();
         _cameraFollow = Camera.main.GetComponent<CameraFollow>();
-        _player = _iterator.player;
+        _player = _playerIterator.player;
 
         Debug.Log($"GameRun!");
     }

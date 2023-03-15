@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Storage;
-using UnityEngine.iOS;
+using Views;
 
 namespace Scenes
 {
@@ -9,7 +9,8 @@ namespace Scenes
     {
         public abstract Dictionary<Type, Repository> CreateAllRepositories();
         public abstract Dictionary<Type, Iterator> CreateAllIterators();
-        
+        public abstract Dictionary<Type, View> CreateAllView();
+
         public abstract string sceneName { get; }
 
         public void CreateIterator<T>(Dictionary<Type, Iterator> iteratorsMap) where T : Iterator, new()
@@ -26,6 +27,14 @@ namespace Scenes
             var type = typeof(T);
 
             repositoriesMap[type] = repository;
+        }
+
+        public void CreateView<T>(Dictionary<Type, View> viewsMap) where T : View, new()
+        {
+            var view = new T();
+            var type = typeof(T);
+
+            viewsMap[type] = view;
         }
     }
 }

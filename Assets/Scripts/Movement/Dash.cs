@@ -21,8 +21,6 @@ namespace Movement
         // ReSharper disable Unity.PerformanceAnalysis
         public void InitDashing(Rigidbody2D rb, Vector2 moveDirection)
         {
-            // DashFacade.IncreaseMaxDashCount(this, 1);
-            // Debug.Log($"{_dashIterator.CanDash} {_dashIterator.CurrentDashCount} {_dashIterator.MaxDashCount}");
             if (!IsDashing && _dashIterator.CanDash)
             {
                 Coroutines.StartRoutine(DashRoutine(moveDirection, rb));

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using Storage;
 using Storage.Dash;
 using Storage.Player;
+using Views;
 
 namespace Scenes
 {
     public class SceneConfigMain : SceneConfig
     {
         public const string SceneName = "SampleScene";
+
         public override string sceneName => SceneName;
         
         public override Dictionary<Type, Repository> CreateAllRepositories()
@@ -29,6 +31,13 @@ namespace Scenes
             CreateIterator<PlayerIterator>(iteratorsMap);
             
             return iteratorsMap;
+        }
+        
+        public override Dictionary<Type, View> CreateAllView()
+        {
+            var viewsMap = new Dictionary<Type, View>();
+
+            return viewsMap;
         }
     }
 }

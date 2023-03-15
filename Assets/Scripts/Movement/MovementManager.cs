@@ -20,9 +20,7 @@ namespace Movement
         {
             var playerIterator = Game.GetIterator<PlayerIterator>();
             var dashIterator = Game.GetIterator<DashIterator>();
-            
-            Debug.Log(dashIterator.MaxDashCount);
-            
+
             _move = new Move(playerIterator);
             _dash = new Dash(dashIterator);
             _rotation = new Rotate();

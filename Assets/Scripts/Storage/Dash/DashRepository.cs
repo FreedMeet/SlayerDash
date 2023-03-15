@@ -1,33 +1,68 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using UnityEngine;
 
 namespace Storage.Dash
 {
     public class DashRepository : Repository
     {
-        private const string Key = "DASH_KEY";
-        
+        private const string FileName = "dash_data.json";
+
         public float DashDistance { get; set; }
         public float DashCooldown { get; set; }
         public int MaxDashCount { get; set; }
         public int CurrentDashCount { get; set; }
         public bool CanDash { get; set; }
-        
+
         public override void Initialize()
         {
-            DashDistance = PlayerPrefs.GetFloat(Key, 5f);
-            DashCooldown = PlayerPrefs.GetFloat(Key, 10f);
-            MaxDashCount = PlayerPrefs.GetInt(Key, 5);
-            CurrentDashCount = MaxDashCount;
-            CanDash = true;
+            var path = Path.Combine(Application.persistentDataPath, FileName);
+            if (File.Exists(path))
+            {
+                var json = File.ReadAllText(path);
+                var data = JsonUtility.FromJson<DashData>(json);
+                DashDistance = data.DashDistance;
+                DashCooldown = data.DashCooldown;
+                MaxDashCount = data.MaxDashCount;
+                CurrentDashCount = MaxDashCount;
+                CanDash = true;
+            }
+            else
+            {
+                DashDistance = 5f;
+                DashCooldown = 10f;
+                MaxDashCount = 2;
+                CurrentDashCount = MaxDashCount;
+                CanDash = true;
+                
+                var data = new DashData
+                {
+                    DashDistance = DashDistance,
+                    DashCooldown = DashCooldown,
+                    MaxDashCount = MaxDashCount
+                };
+                var json = JsonUtility.ToJson(data);
+                File.WriteAllText(path, json);
+            }
         }
 
         public override void Save()
         {
-            PlayerPrefs.SetFloat(Key, DashDistance);
-            PlayerPrefs.SetFloat(Key, DashCooldown);
-            PlayerPrefs.SetInt(Key, MaxDashCount);
-            PlayerPrefs.SetInt(Key, CurrentDashCount);
-            PlayerPrefs.SetInt(Key, CanDash ? 1 : 0);
+            var data = new DashData
+            {
+                DashDistance = DashDistance,
+                DashCooldown = DashCooldown,
+                MaxDashCount = MaxDashCount
+            };
+            var json = JsonUtility.ToJson(data);
+            var path = Path.Combine(Application.persistentDataPath, FileName);
+            File.WriteAllText(path, json);
+        }
+
+        private class DashData
+        {
+            public float DashDistance;
+            public float DashCooldown;
+            public int MaxDashCount;
         }
     }
 }

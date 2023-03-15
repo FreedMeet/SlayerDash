@@ -2,6 +2,7 @@
 using Assets;
 using Storage;
 using UnityEngine;
+using Views;
 
 namespace Scenes
 {
@@ -9,6 +10,7 @@ namespace Scenes
     {
         private readonly IteratorsBase _iteratorsBase;
         private readonly RepositoryBase _repositoryBase;
+        private readonly ViewsBase _viewsBase;
         private SceneConfig _sceneConfig;
 
         public Scene(SceneConfig config)
@@ -16,6 +18,7 @@ namespace Scenes
             _sceneConfig = config;
             _iteratorsBase = new IteratorsBase(config);
             _repositoryBase = new RepositoryBase(config);
+            _viewsBase = new ViewsBase(config);
         }
 
         public Coroutine InitializeAsync()
