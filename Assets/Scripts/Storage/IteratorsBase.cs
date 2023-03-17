@@ -45,7 +45,7 @@ namespace Storage
                 iterator.OnStart();
             }
         }
-        
+
         public T GetIterator<T>() where T : Iterator
         {
             var type = typeof(T);

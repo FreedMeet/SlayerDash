@@ -45,7 +45,7 @@ namespace Storage
                 repository.OnStart();
             }
         }
-        
+
         public T GetRepository<T>() where T : Repository
         {
             var type = typeof(T);

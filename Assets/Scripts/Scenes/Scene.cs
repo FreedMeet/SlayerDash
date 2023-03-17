@@ -43,6 +43,15 @@ namespace Scenes
             _iteratorsBase.SendOnstartToAllIterators();
             _repositoryBase.SendOnstartToAllRepositories();
             yield return null;
+
+            _viewsBase.CreateAllViews();
+            yield return null;
+            _viewsBase.SendOnCreateToAllViews();
+            yield return null;
+            _viewsBase.InitializeAllViews();
+            yield return null;
+            _viewsBase.SendOnstartToAllViews();
+            yield return null;
         }
 
         public T GetRepository<T>() where T : Repository

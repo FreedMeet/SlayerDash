@@ -18,11 +18,8 @@ namespace Movement
         
         private void Awake()
         {
-            var playerIterator = Game.GetIterator<PlayerIterator>();
-            var dashIterator = Game.GetIterator<DashIterator>();
-
-            _move = new Move(playerIterator);
-            _dash = new Dash(dashIterator);
+            _move = new Move();
+            _dash = new Dash();
             _rotation = new Rotate();
         
             if (_move is null && _dash is null && _rotation is null)

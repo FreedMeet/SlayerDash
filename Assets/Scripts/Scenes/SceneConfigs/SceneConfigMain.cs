@@ -4,6 +4,7 @@ using Storage;
 using Storage.Dash;
 using Storage.Player;
 using Views;
+using Views.PlayerView;
 
 namespace Scenes
 {
@@ -36,6 +37,8 @@ namespace Scenes
         public override Dictionary<Type, View> CreateAllView()
         {
             var viewsMap = new Dictionary<Type, View>();
+            
+            CreateView<DashView>(viewsMap);
 
             return viewsMap;
         }

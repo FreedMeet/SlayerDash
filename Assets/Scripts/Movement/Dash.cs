@@ -9,19 +9,13 @@ namespace Movement
     {
         private const float DashDuration = 0.1f;
         private readonly LayerMask _layerMask = 1 << 3;
-        private readonly DashIterator _dashIterator;
-
-        public Dash(DashIterator iterator)
-        {
-            _dashIterator = iterator;
-        }
 
         public bool IsDashing;
         
         // ReSharper disable Unity.PerformanceAnalysis
         public void InitDashing(Rigidbody2D rb, Vector2 moveDirection)
         {
-            if (!IsDashing && _dashIterator.CanDash)
+            if (!IsDashing && DashFacade.CanDash)
             {
                 Coroutines.StartRoutine(DashRoutine(moveDirection, rb));
             }
@@ -33,7 +27,7 @@ namespace Movement
             DashFacade.IsCanDash(this, false);
             DashFacade.CurrentDashCountReduction(this, 1);
 
-            var hit = Physics2D.Raycast(rb.position, direction, _dashIterator.DashDistance, _layerMask);
+            var hit = Physics2D.Raycast(rb.position, direction, DashFacade.DashDistance, _layerMask);
 
             if (hit.collider is not null)
             {
@@ -41,7 +35,7 @@ namespace Movement
             }
 
             // Normalize the direction and apply the dash distance
-            direction = direction.normalized * _dashIterator.DashDistance;
+            direction = direction.normalized * DashFacade.DashDistance;
 
             // Move the rigidbody by the dash distance
             rb.MovePosition(rb.position + direction);
@@ -49,10 +43,10 @@ namespace Movement
             yield return new WaitForSeconds(DashDuration);
             IsDashing = false;
 
-            if (_dashIterator.CurrentDashCount == 0)
+            if (DashFacade.CurrentDashCount == 0)
             {
-                yield return new WaitForSeconds(_dashIterator.DashCooldown - DashDuration);
-                DashFacade.SetCurrentDashCount(this, _dashIterator.MaxDashCount);
+                yield return new WaitForSeconds(DashFacade.DashCooldown - DashDuration);
+                DashFacade.SetCurrentDashCount(this, DashFacade.MaxDashCount);
                 DashFacade.IsCanDash(this, true);
             }
             else

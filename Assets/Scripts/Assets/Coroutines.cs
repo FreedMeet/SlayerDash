@@ -27,7 +27,7 @@ namespace Assets
             return instance.StartCoroutine(enumerator);
         }
 
-        public void StopRoutine(Coroutine routine)
+        public static void StopRoutine(Coroutine routine)
         {
             instance.StopCoroutine(routine);
         }
