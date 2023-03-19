@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Storage.Player
 {
@@ -6,7 +7,8 @@ namespace Storage.Player
     {
         private PlayerRepository _repository;
         public float MoveSpeed => _repository.MoveSpeed;
-        public GameObject player;
+        
+        private readonly List<IPlayerObserver> _observers = new List<IPlayerObserver>();
 
         public override void OnCreate()
         {
@@ -16,22 +18,45 @@ namespace Storage.Player
 
         public override void Initialize()
         {
-            base.Initialize();
-            var playerPrefab = Resources.Load<GameObject>("PlayerPrefab");
-            player = GameObject.Instantiate(playerPrefab);
             PlayerFacade.Initialize(this);
+        }
+        
+        public void AddObserver(IPlayerObserver observer)
+        {
+            if (!_observers.Contains(observer))
+            {
+                _observers.Add(observer);
+            }
+        }
+
+        public void RemoveObserver(IPlayerObserver observer)
+        {
+            if (_observers.Contains(observer))
+            {
+                _observers.Remove(observer);
+            }
+        }
+        
+        private void NotifyListeners()
+        {
+            foreach (var observer in _observers)
+            {
+                observer.OnChange();
+            }
         }
 
         public void IncreaseInSpeed(object sender, float value)
         {
             _repository.MoveSpeed += value;
             _repository.Save();
+            NotifyListeners();
         }
         
         public void SpeedReduction(object sender, float value)
         {
             _repository.MoveSpeed -= value;
             _repository.Save();
+            NotifyListeners();
         }
     }
 }

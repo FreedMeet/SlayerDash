@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Movement
+namespace InputController.Components
 {
     public class Rotate
     {

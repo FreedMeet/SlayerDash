@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 namespace Storage.Player
 {
@@ -25,6 +24,19 @@ namespace Storage.Player
             IsInitialized = true;
             
             OnPlayerInitializedEvent?.Invoke();
+        }
+        
+        public static void AddObserver(IPlayerObserver observer)
+        {
+            CheckClass();
+            _iterator.AddObserver(observer);
+            
+        }
+        
+        public static void RemoveObserver(IPlayerObserver observer)
+        {
+            CheckClass();
+            _iterator.RemoveObserver(observer);
         }
 
         public static void IncreaseInSpeed(object sender, float value)

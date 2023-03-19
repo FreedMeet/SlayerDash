@@ -1,11 +1,9 @@
 ﻿using Assets;
 using Storage;
-using Storage.Player;
 using UnityEngine;
 
 public class GameManager: MonoBehaviour
 {
-    private PlayerIterator _playerIterator;
     private GameObject _player;
     private CameraFollow _cameraFollow;
     private void Start()
@@ -17,10 +15,10 @@ public class GameManager: MonoBehaviour
     private void OnGameInitializes()
     {
         Game.OnGameInitializeEvent -= OnGameInitializes;
-        
-        _playerIterator = Game.GetIterator<PlayerIterator>();
         _cameraFollow = Camera.main.GetComponent<CameraFollow>();
-        _player = _playerIterator.player;
+        
+        var playerPrefab = Resources.Load<GameObject>("PlayerPrefab");
+        _player = GameObject.Instantiate(playerPrefab);
 
         Debug.Log($"GameRun!");
     }

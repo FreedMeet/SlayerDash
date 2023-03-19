@@ -1,4 +1,6 @@
-﻿namespace Scenes
+﻿using Scenes.SceneConfigs;
+
+namespace Scenes.SceneManagers
 {
     public class SceneManagerMain : SceneManagerBase
     {

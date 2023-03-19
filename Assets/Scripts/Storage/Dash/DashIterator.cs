@@ -59,60 +59,49 @@ namespace Storage.Dash
             _repository.Save();
             NotifyListeners();
         }
-
         public void DashDistanceReduction(object sender, float value)
         {
             _repository.DashDistance -= value;
             _repository.Save();
             NotifyListeners();
         }
-
         public void IncreaseDashCooldown(object sender, float value)
         {
             _repository.DashCooldown += value;
             _repository.Save();
             NotifyListeners();
         }
-
         public void DashCooldownReduction(object sender, float value)
         {
             _repository.DashCooldown -= value;
             _repository.Save();
             NotifyListeners();
         }
-
         public void IncreaseMaxDashCount(object sender, int value)
         {
             _repository.MaxDashCount += value;
             _repository.Save();
             NotifyListeners();
         }
-
         public void MaxDashCountReduction(object sender, int value)
         {
             _repository.MaxDashCount -= value;
             _repository.Save();
             NotifyListeners();
         }
-
         public void SetCurrentDashCount(object sender, int value)
         {
             _repository.CurrentDashCount = value;
-            _repository.Save();
             NotifyListeners();
         }
-
         public void CurrentDashCountReduction(object sender, int value)
         {
             _repository.CurrentDashCount -= value;
-            _repository.Save();
             NotifyListeners();
         }
-        
         public void IsCanDash(object sender, bool value)
         {
             _repository.CanDash = value;
-            _repository.Save();
             NotifyListeners();
         }
     }

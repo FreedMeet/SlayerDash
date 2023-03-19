@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
-using Views.PlayerView.DashUI;
+using Views.PlayerView.ShootingUI;
 
 namespace Views.PlayerView
 {
-    public class DashView : View
+    public class ShootView : View
     {
-
-        private DashCooldownUI _dashCooldownUI;
-        private DashCountUI _dashCountUI;
+        private ShootReloadUI _shootReloadUI;
+        private CountOfAmmoUI _countOfAmmoUI;
         private Canvas _uiManager;
 
         public override void OnCreate()
@@ -19,15 +18,15 @@ namespace Views.PlayerView
         public override void Initialize()
         {
             base.Initialize();
-            _dashCooldownUI = new DashCooldownUI(_uiManager);
-            _dashCountUI = new DashCountUI(_uiManager);
+            _shootReloadUI = new ShootReloadUI(_uiManager);
+            _countOfAmmoUI = new CountOfAmmoUI(_uiManager);
         }
 
         public override void OnStart()
         {
             base.OnStart();
-            _dashCooldownUI.CreateDashCooldownUI();
-            _dashCountUI.CreateDashCountUI();
+            _shootReloadUI.CreateReloadTimeUI();
+            _countOfAmmoUI.CreateCountOfShootUI();
         }
     }
 }

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Movement
+namespace InputController
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class CharacterInputController: MonoBehaviour
@@ -12,12 +12,16 @@ namespace Movement
         private Camera _mainCamera;
         private Rigidbody2D _rb;
 
+        private Transform _firePoint;
+
         private void Awake()
         {
             _mainCamera = Camera.main;
             _rb = GetComponent<Rigidbody2D>();
             _controllable = GetComponent<IControllable>();
-            
+
+            _firePoint = GetComponentInChildren<Transform>().Find("FirePoint");
+
             _gameInput = new GameInput();
             _gameInput.Enable();
 
@@ -28,16 +32,23 @@ namespace Movement
         private void OnEnable()
         {
             _gameInput.Gameplay.Dash.performed += OnDashPerformed;
+            _gameInput.Gameplay.Shoot.performed += OnShootPerformed;
         }
 
         private void OnDashPerformed(InputAction.CallbackContext obj)
         {
             _controllable.Dash(_gameInput.Gameplay.Movement.ReadValue<Vector2>().normalized, _rb); 
         }
+        
+        private void OnShootPerformed(InputAction.CallbackContext obj)
+        {
+            _controllable.Shoot(_firePoint);
+        }
 
         private void OnDisable()
         {
             _gameInput.Gameplay.Dash.performed -= OnDashPerformed;
+            _gameInput.Gameplay.Shoot.performed -= OnShootPerformed;
         }
 
         private void Update()

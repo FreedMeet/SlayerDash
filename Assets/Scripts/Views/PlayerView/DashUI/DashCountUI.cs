@@ -6,7 +6,6 @@ namespace Views.PlayerView.DashUI
 {
     public class DashCountUI: IDashObserver
     {
-        private GameObject _cooldownPrefab;
         private readonly Text _dashCountText;
 
         private readonly GameObject _dashCountUI;

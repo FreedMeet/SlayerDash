@@ -3,7 +3,7 @@ using UnityEngine;
 using Assets;
 using Storage.Dash;
 
-namespace Movement
+namespace InputController.Components
 {
     public class Dash
     {

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using Storage;
 using Storage.Dash;
 using Storage.Player;
+using Storage.Shooting;
 using Views;
 using Views.PlayerView;
 
-namespace Scenes
+namespace Scenes.SceneConfigs
 {
     public class SceneConfigMain : SceneConfig
     {
@@ -20,6 +21,7 @@ namespace Scenes
             
             CreateRepository<DashRepository>(repositoriesMap);
             CreateRepository<PlayerRepository>(repositoriesMap);
+            CreateRepository<ShootingRepository>(repositoriesMap);
 
             return repositoriesMap;
         }
@@ -30,6 +32,7 @@ namespace Scenes
             
             CreateIterator<DashIterator>(iteratorsMap);
             CreateIterator<PlayerIterator>(iteratorsMap);
+            CreateIterator<ShootingIterator>(iteratorsMap);
             
             return iteratorsMap;
         }
@@ -39,6 +42,7 @@ namespace Scenes
             var viewsMap = new Dictionary<Type, View>();
             
             CreateView<DashView>(viewsMap);
+            CreateView<ShootView>(viewsMap);
 
             return viewsMap;
         }

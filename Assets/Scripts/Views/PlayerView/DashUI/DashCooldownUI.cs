@@ -36,6 +36,10 @@ namespace Views.PlayerView.DashUI
                 UpdateDashCooldownText();
                 StopDashCooldownCoroutine();
             }
+            else if(!DashFacade.CanDash && DashFacade.CurrentDashCount > 0)
+            {
+                UpdateDashCooldownText();
+            }
             else
             {
                 StartDashCooldownCoroutine();
@@ -70,8 +74,8 @@ namespace Views.PlayerView.DashUI
             while (!DashFacade.CanDash)
             {
                 _dashCooldownText.text = $"Dash: {_dashCooldown:F1}";
-                yield return new WaitForSeconds(1);
-                _dashCooldown -= 1f;
+                yield return new WaitForSeconds(0.1f);
+                _dashCooldown -= 0.1f;
             }
 
             StopDashCooldownCoroutine();
