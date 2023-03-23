@@ -13,7 +13,7 @@ namespace Views.PlayerView.ShootingUI
         public CountOfAmmoUI(Canvas uiManager)
         {
             _countOfAmmoUI = Object.Instantiate(
-                Resources.Load<GameObject>("CountOfAmmoUIPrefab"), uiManager.transform);
+                Resources.Load<GameObject>("UI/CountOfAmmoUIPrefab"), uiManager.transform);
             _countOfAmmoText = _countOfAmmoUI.GetComponentInChildren<Text>();
 
             ShootingFacade.AddObserver(this);

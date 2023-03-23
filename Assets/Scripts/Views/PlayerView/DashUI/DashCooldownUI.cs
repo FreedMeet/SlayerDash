@@ -18,7 +18,7 @@ namespace Views.PlayerView.DashUI
 
         public DashCooldownUI(Canvas uiManager)
         {
-            _cooldownUI = Object.Instantiate(Resources.Load<GameObject>("DashCooldownUIPrefab"), uiManager.transform);
+            _cooldownUI = Object.Instantiate(Resources.Load<GameObject>("UI/DashCooldownUIPrefab"), uiManager.transform);
             _dashCooldownText = _cooldownUI.GetComponentInChildren<Text>();
 
             DashFacade.AddObserver(this);

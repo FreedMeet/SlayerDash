@@ -18,7 +18,7 @@ namespace Views.PlayerView.ShootingUI
 
         public ShootReloadUI(Canvas uiManager)
         {
-            _reloadTimeUI = Object.Instantiate(Resources.Load<GameObject>("ReloadTimeUIPrefab"), uiManager.transform);
+            _reloadTimeUI = Object.Instantiate(Resources.Load<GameObject>("UI/ReloadTimeUIPrefab"), uiManager.transform);
             _reloadTimeText = _reloadTimeUI.GetComponentInChildren<Text>();
 
             ShootingFacade.AddObserver(this);

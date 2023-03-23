@@ -18,7 +18,8 @@ public class GameManager: MonoBehaviour
         _cameraFollow = Camera.main.GetComponent<CameraFollow>();
         
         var playerPrefab = Resources.Load<GameObject>("PlayerPrefab");
-        _player = GameObject.Instantiate(playerPrefab);
+        _player = Instantiate(playerPrefab);
+        _player.transform.position = new Vector2(0, 0);
 
         Debug.Log($"GameRun!");
     }

@@ -26,7 +26,6 @@ namespace InputController.Components
             _nextFireTime = Time.time + ShootingFacade.FireRate;
             // Instantiate a bullet at the spawn point
             var bullet = _pool.GetFreeElement();
-
             bullet.transform.position = firePoint.position;
             
             var rb = bullet.GetComponent<Rigidbody2D>();

@@ -13,7 +13,7 @@ namespace Views.PlayerView.DashUI
         public DashCountUI(Canvas uiManager)
         {
             _dashCountUI = Object.Instantiate(
-                Resources.Load<GameObject>("DashCountUIPrefab"), uiManager.transform);
+                Resources.Load<GameObject>("UI/DashCountUIPrefab"), uiManager.transform);
             _dashCountText = _dashCountUI.GetComponentInChildren<Text>();
             
             DashFacade.AddObserver(this);
