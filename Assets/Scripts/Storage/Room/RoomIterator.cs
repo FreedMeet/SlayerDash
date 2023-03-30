@@ -1,26 +1,29 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
-namespace Storage.Player
+namespace Storage.Room
 {
-    public class PlayerIterator : Iterator
+    public class RoomIterator : Iterator
     {
-        private PlayerRepository _repository;
-        public float MoveSpeed => _repository.MoveSpeed;
+        private RoomRepository _repository;
         
-        private readonly List<IPlayerObserver> _observers = new ();
+        public List<List<char>> MiniatureRoom => _repository.MiniatureRoom;
+        public Dictionary<string, List<Vector2Int>> ChunkCoords => _repository.ChunkCoords;
+
+        private readonly List<IRoomObserver> _observers = new ();
 
         public override void OnCreate()
         {
             base.OnCreate();
-            _repository = Game.GetRepository<PlayerRepository>();   
+            _repository = Game.GetRepository<RoomRepository>();   
         }
 
         public override void Initialize()
         {
-            PlayerFacade.Initialize(this);
+            RoomFacade.Initialize(this);
         }
         
-        public void AddObserver(IPlayerObserver observer)
+        public void AddObserver(IRoomObserver observer)
         {
             if (!_observers.Contains(observer))
             {
@@ -28,7 +31,7 @@ namespace Storage.Player
             }
         }
 
-        public void RemoveObserver(IPlayerObserver observer)
+        public void RemoveObserver(IRoomObserver observer)
         {
             if (_observers.Contains(observer))
             {
@@ -44,16 +47,16 @@ namespace Storage.Player
             }
         }
 
-        public void IncreaseInSpeed(object sender, float value)
+        public void SetNewMiniature(object sender, List<List<char>> value)
         {
-            _repository.MoveSpeed += value;
+            _repository.MiniatureRoom = value;
             _repository.Save();
             NotifyListeners();
         }
         
-        public void SpeedReduction(object sender, float value)
+        public void SetNewChunkCoords(object sender, Dictionary<string, List<Vector2Int>> value)
         {
-            _repository.MoveSpeed -= value;
+            _repository.ChunkCoords = value;
             _repository.Save();
             NotifyListeners();
         }

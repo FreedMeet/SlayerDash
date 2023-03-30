@@ -1,9 +1,11 @@
 ﻿using Assets;
+using Rooms;
 using Storage;
 using UnityEngine;
 
 public class GameManager: MonoBehaviour
 {
+    [SerializeField] private Transform roomContainer;
     private GameObject _player;
     private CameraFollow _cameraFollow;
     private void Start()
@@ -15,8 +17,11 @@ public class GameManager: MonoBehaviour
     private void OnGameInitializes()
     {
         Game.OnGameInitializeEvent -= OnGameInitializes;
+
+        var room = new Room(roomContainer);
+
         _cameraFollow = Camera.main.GetComponent<CameraFollow>();
-        
+
         var playerPrefab = Resources.Load<GameObject>("PlayerPrefab");
         _player = Instantiate(playerPrefab);
         _player.transform.position = new Vector2(0, 0);

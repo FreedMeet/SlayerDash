@@ -1,98 +1,68 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Storage.Room;
+using UnityEngine;
 
 namespace Rooms
 {
     public class Room
     {
-        private readonly int _rows;
-        private readonly int _cols;
-        private int _numOfChunk;
+        private readonly Dictionary<string, GameObject> _wallPrefabs;
 
-        public Room(int rows, int cols, int numOfChunk)
+        public Room(Transform container)
         {
-            _rows = rows;
-            _cols = cols;
-            _numOfChunk = numOfChunk;
+            _wallPrefabs = new Dictionary<string, GameObject>
+            {
+                { "U", Resources.Load<GameObject>("Map/ChunkU") },
+                { "D", Resources.Load<GameObject>("Map/ChunkD") },
+                { "L", Resources.Load<GameObject>("Map/ChunkL") },
+                { "R", Resources.Load<GameObject>("Map/ChunkR") },
+                { "UL", Resources.Load<GameObject>("Map/ChunkUL") },
+                { "UR", Resources.Load<GameObject>("Map/ChunkUR") },
+                { "DL", Resources.Load<GameObject>("Map/ChunkDL") },
+                { "DR", Resources.Load<GameObject>("Map/ChunkDR") },
+                { "UDL", Resources.Load<GameObject>("Map/ChunkLDU") },
+                { "UDR", Resources.Load<GameObject>("Map/ChunkRDU") },
+                { "DRL", Resources.Load<GameObject>("Map/ChunkDRL") },
+                { "URL", Resources.Load<GameObject>("Map/ChunkURL") },
+                { "RL", Resources.Load<GameObject>("Map/ChunkRL") },
+                { "UD", Resources.Load<GameObject>("Map/ChunkUD") },
+                { "Empty", Resources.Load<GameObject>("Map/ChunkEmpty") }
+            };
+
+            CreateRoomFormFromList(RoomFacade.ChunkCoords, RoomFacade.MiniatureRoom, container);
         }
 
-        public (List<List<char>>, Dictionary<string, List<Vector2Int>>) GenerateRoom()
+        private void CreateRoomFormFromList(Dictionary<string, List<Vector2Int>> chunkCoords, IList<List<char>> map,
+            Transform parent)
         {
-            var miniatureRoom = new List<List<char>>();
-            var chunkCoordinates = new Dictionary<string, List<Vector2Int>>();
-
-            for (var i = 0; i < _rows; i++)
+            foreach (var chunk in chunkCoords)
             {
-                var row = new List<char>();
+                var prefab = GetCurrentPrefab(chunk.Value[1].x, chunk.Value[1].y, map);
 
-                for (var j = 0; j < _cols; j++)
-                {
-                    row.Add('.');
-                }
-
-                miniatureRoom.Add(row);
+                var instance = Object.Instantiate(prefab, new Vector3(chunk.Value[0].x, chunk.Value[0].y, 0),
+                    Quaternion.identity);
+                instance.transform.parent = parent;
             }
-
-            var centerRow = _rows / 2;
-            var centerCol = _cols / 2;
-
-            miniatureRoom[centerRow][centerCol] = '#';
-            chunkCoordinates.Add("MainChunk", new List<Vector2Int>
-            {
-                new(0, 0),
-                new(centerRow, centerCol)
-            });
-
-            while (_numOfChunk > 1)
-            {
-                int row, col;
-                do
-                {
-                    row = Random.Range(0, _rows);
-                    col = Random.Range(0, _cols);
-                } while (miniatureRoom[row][col] != '#');
-
-                var directions = new List<Vector2Int>
-                {
-                    new(0, 1),
-                    new(0, -1),
-                    new(1, 0),
-                    new(-1, 0),
-                };
-                Shuffle(directions);
-                foreach (var direction in directions)
-                {
-                    var newRow = row + direction.x;
-                    var newCol = col + direction.y;
-                    if (newRow >= 0 && newRow < _rows && newCol >= 0 && newCol < _cols &&
-                        miniatureRoom[newRow][newCol] == '.')
-                    {
-                        miniatureRoom[newRow][newCol] = '#';
-                        chunkCoordinates.Add($"DefaultChunk_{_numOfChunk}",
-                            new List<Vector2Int>
-                            {
-                                new((newCol - centerCol) * 5, (centerRow - newRow) * 5),
-                                new(newRow, newCol)
-                            });
-                        _numOfChunk--;
-                        break;
-                    }
-                }
-            }
-
-            return (miniatureRoom, chunkCoordinates);
         }
 
-        private static void Shuffle<T>(IList<T> list)
+        private GameObject GetCurrentPrefab(int row, int coll, IList<List<char>> map)
         {
-            var n = list.Count;
+            var numRows = map.Count;
+            var numCols = map[0].Count;
+            var wallPos = "";
 
-            while (n > 1)
-            {
-                n--;
-                var k = Random.Range(0, n + 1);
-                (list[k], list[n]) = (list[n], list[k]);
-            }
+            if (row == 0 || map[row - 1][coll] != '#')
+                wallPos += "U";
+            if (row == numRows - 1 || map[row + 1][coll] != '#')
+                wallPos += "D";
+            if (coll == numCols - 1 || map[row][coll + 1] != '#')
+                wallPos += "R";
+            if (coll == 0 || map[row][coll - 1] != '#')
+                wallPos += "L";
+
+            if (wallPos == "") return _wallPrefabs["Empty"];
+
+            return _wallPrefabs[wallPos];
         }
     }
 }
